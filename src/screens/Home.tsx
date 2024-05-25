@@ -13,7 +13,7 @@ type Props = {
 };
 
 const Home = ({navigation}: Props) => {
-  return <AppBaseHome children={content(navigation)} />;
+  return <AppBaseHome children={content(navigation)} navigation = {navigation} />;
 };
 
 const content = (navigation:any) => {

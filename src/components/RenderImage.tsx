@@ -5,9 +5,10 @@ type Props = {
   image: any;
   style?: object;
   rest?: object;
+  onpress?:()=>void
 };
 
-const RenderImage = ({image, style, ...rest}: Props) => {
+const RenderImage = ({image, style,onpress, ...rest}: Props) => {
   const [isImage, setIsImage] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const RenderImage = ({image, style, ...rest}: Props) => {
 
   return (
     <>
-      <Pressable>
+      <Pressable onPress={onpress}>
         {isImage ? (
           <Image
             source={{uri: image}}
@@ -46,7 +47,7 @@ export default RenderImage;
 
 const styles = StyleSheet.create({
   imageStyle: {
-    width: 50,
-    height: 50,
+    width: 24,
+    height: 24,
   },
 });
