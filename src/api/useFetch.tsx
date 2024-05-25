@@ -3,7 +3,7 @@ import axios, {AxiosResponse} from 'axios';
 const create = (url: string, method: string) => {
   return axios.create({
     baseURL: url,
-    timeout: 5000,
+    timeout: 10000,
     method: method,
   });
 };

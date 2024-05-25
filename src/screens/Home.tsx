@@ -6,19 +6,21 @@ import {images} from '../assets/images/images';
 import TypoGraphy from '../components/TypoGraphy';
 import {useFetch} from '../api/useFetch';
 import YouTubeHomeShimmer from '../components/Shimmer';
+import { useNavigation } from '@react-navigation/native';
 
-type Props = {};
-
-const Home = ({}: Props) => {
-  return <AppBaseHome children={content()} />;
+type Props = {
+ navigation:any
 };
 
-const content = () => {
+const Home = ({navigation}: Props) => {
+  return <AppBaseHome children={content(navigation)} />;
+};
+
+const content = (navigation:any) => {
   const [videos, setvideos] = useState<object>([]);
   const renderItemYoutube = ({item}: any) => {
-    console.log(item);
     return (
-      <Pressable style={styles.videoCon}>
+      <Pressable style={styles.videoCon} onPress={()=>navigation.navigate("Details",{item:item})}>
         <RenderImage
           image={item.p_image}
           style={styles.image}
@@ -46,7 +48,8 @@ const content = () => {
       'GET',
     )
       .then(data => {
-        setvideos(data?.data['EDITORIAL/BRANDED']);
+        console.log(data)
+        setvideos(data?.data["EDITORIAL/BRANDED"]);
       })
       .catch(e => {
         console.log(e);

@@ -37,7 +37,7 @@ export default AppBaseHome;
 const styles = StyleSheet.create({
   Main: {
     flex: 1,
-  
+    backgroundColor:'#000'
   },
   header: {
     height: 60,

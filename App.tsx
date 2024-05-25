@@ -1,20 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import Home from './src/screens/Home'
-
+import { NavigationContainer } from '@react-navigation/native';
+import Route from './src/navigation/Route';
 type Props = {}
 
 const App = (props: Props) => {
   return (
-    <View style = {styles.Main}>
-      <Home/>
-    </View>
+    <NavigationContainer>
+      <Route/>
+    </NavigationContainer>
   )
 }
 export default App
-
-const styles = StyleSheet.create({
-  Main:{
-    flex:1
-  }
-})
