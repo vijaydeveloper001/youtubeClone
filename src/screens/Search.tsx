@@ -3,10 +3,13 @@ import React from 'react';
 import RenderImage from '../components/RenderImage';
 import {images} from '../assets/images/images';
 import TypoGraphy from '../components/TypoGraphy';
+import { useSelector } from 'react-redux';
 
 type Props = {};
 
 const Search = (props: Props) => {
+    const state = useSelector(state=>state?.reducers?.videos)
+    console.log(state)
     const renderitem = ()=>{
         return (
             <Pressable style = {styles.flatCon}>

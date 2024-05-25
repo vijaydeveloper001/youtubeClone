@@ -7,7 +7,8 @@ import TypoGraphy from '../components/TypoGraphy';
 import {useFetch} from '../api/useFetch';
 import YouTubeHomeShimmer from '../components/Shimmer';
 import { useNavigation } from '@react-navigation/native';
-
+import { videoAdded } from '../redux/reducers/videoReducers';
+import { useDispatch } from 'react-redux';
 type Props = {
  navigation:any
 };
@@ -18,6 +19,9 @@ const Home = ({navigation}: Props) => {
 
 const content = (navigation:any) => {
   const [videos, setvideos] = useState<object>([]);
+  const dispatch = useDispatch()
+
+
   const renderItemYoutube = ({item}: any) => {
     return (
       <Pressable style={styles.videoCon} onPress={()=>navigation.navigate("Details",{item:item})}>
@@ -48,7 +52,7 @@ const content = (navigation:any) => {
       'GET',
     )
       .then(data => {
-        console.log(data)
+        dispatch(videoAdded(data?.data["EDITORIAL/BRANDED"]))
         setvideos(data?.data["EDITORIAL/BRANDED"]);
       })
       .catch(e => {
