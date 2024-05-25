@@ -1,10 +1,11 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AppBaseHome from '../components/AppBaseHome';
 import RenderImage from '../components/RenderImage';
 import {images} from '../assets/images/images';
 import TypoGraphy from '../components/TypoGraphy';
 import {useFetch} from '../api/useFetch';
+import YouTubeHomeShimmer from '../components/Shimmer';
 
 type Props = {};
 
@@ -17,7 +18,7 @@ const content = () => {
   const renderItemYoutube = ({item}: any) => {
     console.log(item);
     return (
-      <View style={styles.videoCon}>
+      <Pressable style={styles.videoCon}>
         <RenderImage
           image={item.p_image}
           style={styles.image}
@@ -35,7 +36,7 @@ const content = () => {
             tintColor="#fff"
           />
         </View>
-      </View>
+      </Pressable>
     );
   };
 
@@ -56,12 +57,16 @@ const content = () => {
     fetchVideos();
   }, []);
   return (
-    <View>
-      <FlatList
-        data={videos}
-        renderItem={renderItemYoutube}
-        keyExtractor={(item, index) => index}
-      />
+    <View style={{flex: 1}}>
+      {videos?.length > 0 ? (
+        <FlatList
+          data={videos}
+          renderItem={renderItemYoutube}
+          keyExtractor={(item, index) => index}
+        />
+      ) : (
+        <YouTubeHomeShimmer />
+      )}
     </View>
   );
 };
