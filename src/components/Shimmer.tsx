@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   image: {
     height: 250,
     width: '100%',
+    backgroundColor:'#111111'
   },
   videoCon: {
     flex: 1,
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
   },
   typography: {
     height: 20, // Adjust the height as needed
-    backgroundColor: '#f0f0f0', // Background color for the placeholder
+    backgroundColor: '#111111', // Background color for the placeholder
   },
 });
 

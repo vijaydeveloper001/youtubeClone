@@ -21,7 +21,6 @@ const Search = ({navigation}: Props) => {
   const state = useSelector((state: any) => state?.reducers?.videos);
   const [data, setdata] = useState<any>([]);
   const renderitem = ({item}: any) => {
-   
     return (
       <Pressable
         style={styles.flatCon}
@@ -41,7 +40,7 @@ const Search = ({navigation}: Props) => {
   return (
     <View style={styles.main}>
       <View style={styles.inputCon}>
-        <RenderImage image={images.back} tintColor={'#fff'} />
+        <RenderImage image={images.back} tintColor={'#fff'} onPress={()=>navigation.goBack()} />
         <TextInput
           style={styles.inputStyle}
           placeholder="Search Youtube"
@@ -54,6 +53,7 @@ const Search = ({navigation}: Props) => {
           data={data?.length > 0 ? data : state.data}
           renderItem={renderitem}
           contentContainerStyle={{paddingBottom: 100}}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </View>

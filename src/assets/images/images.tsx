@@ -10,7 +10,13 @@ export const images = {
     download:require('./download.png'),
     share:require('./share.png'),
     back:require('./back.png'),
-    voice:require('./mic.png')
+    voice:require('./mic.png'),
+    cross:require('./cross.png'),
+    home:require('./home.png'),
+    subscribe:require('./subscribe.png'),
+    user:require('./user.png'),
+    video:require('./video.png'),
+
 
 
 

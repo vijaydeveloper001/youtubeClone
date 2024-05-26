@@ -1,45 +1,56 @@
-import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {
+  Animated,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import AppBaseHome from '../components/AppBaseHome';
 import RenderImage from '../components/RenderImage';
 import {images} from '../assets/images/images';
 import TypoGraphy from '../components/TypoGraphy';
 import {useFetch} from '../api/useFetch';
 import YouTubeHomeShimmer from '../components/Shimmer';
-import { useNavigation } from '@react-navigation/native';
-import { videoAdded } from '../redux/reducers/videoReducers';
-import { useDispatch, useSelector } from 'react-redux';
+import {videoAdded} from '../redux/reducers/videoReducers';
+import {useDispatch, useSelector} from 'react-redux';
 type Props = {
- navigation:any
+  navigation: any;
 };
 
 const Home = ({navigation}: Props) => {
-  return <AppBaseHome children={content(navigation)} navigation = {navigation} />;
+  return (
+    <AppBaseHome
+      children={content(navigation)}
+      navigation={navigation}
+    />
+  );
 };
 
-const content = (navigation:any) => {
+const content = (navigation: any) => {
   const [videos, setvideos] = useState<object>([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const state = useSelector((state: any) => state?.reducers?.videos);
-
-
   const renderItemYoutube = ({item}: any) => {
     return (
-      <Pressable style={styles.videoCon} onPress={()=>navigation.navigate("Details",{item:item})}>
+      <Pressable
+        style={styles.videoCon}
+        onPress={() => navigation.navigate('Details', {item: item})}>
         <RenderImage
           image={item.p_image}
           style={styles.image}
-          resizeMethod={'cantion'}
+          onPress={() => navigation.navigate('Details', {item: item})}
         />
         <View style={styles.videodes}>
           <RenderImage image={item.p_image} style={styles.imageborder} />
           <View style={styles.textdes}>
             <TypoGraphy>{item?.p_name}</TypoGraphy>
-            <TypoGraphy>{item?.cat_name}</TypoGraphy>
+            <TypoGraphy style = {styles.timeText}>2 years ago 2m views</TypoGraphy>
           </View>
           <RenderImage
             image={images.more}
-            style={styles.imageborder}
+            style={styles.imageborders}
             tintColor="#fff"
           />
         </View>
@@ -53,7 +64,7 @@ const content = (navigation:any) => {
       'GET',
     )
       .then(data => {
-        dispatch(videoAdded(data?.data["EDITORIAL/BRANDED"]))
+        dispatch(videoAdded(data?.data['EDITORIAL/BRANDED']));
         // setvideos(data?.data["EDITORIAL/BRANDED"]);
       })
       .catch(e => {
@@ -62,10 +73,11 @@ const content = (navigation:any) => {
   };
 
   useEffect(() => {
-    if (state?.data?.length==0){
+    if (state?.data?.length == 0) {
       fetchVideos();
     }
   }, []);
+
   return (
     <View style={{flex: 1}}>
       {state?.data?.length > 0 ? (
@@ -73,6 +85,7 @@ const content = (navigation:any) => {
           data={state?.data}
           renderItem={renderItemYoutube}
           keyExtractor={(item, index) => index}
+          stickyHeaderIndices={[0]}
         />
       ) : (
         <YouTubeHomeShimmer />
@@ -90,7 +103,7 @@ const styles = StyleSheet.create({
   },
   videoCon: {
     height: 300,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   videodes: {
     flexDirection: 'row',
@@ -102,11 +115,18 @@ const styles = StyleSheet.create({
   },
   imageborder: {
     borderRadius: 999,
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
   },
   textdes: {
     flex: 1,
     paddingHorizontal: 10,
   },
+  timeText:{
+    fontSize:12
+  },
+  imageborders:{
+    width:20,
+    height:20
+  }
 });
