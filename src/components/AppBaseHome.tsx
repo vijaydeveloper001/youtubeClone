@@ -21,7 +21,7 @@ const AppBaseHome = ({children,navigation}: Props) => {
         <View style={styles.icons}>
           <RenderImage image={images.wifi}  tintColor ={'#fff'} style={styles.icon}  />
           <RenderImage image={images.bell}  tintColor ={'#fff'} style={styles.icon}/>
-          <RenderImage image={images.search}  tintColor ={'#fff'} style={styles.icon} onpress={()=>navigation.navigate('Search')}/>
+          <RenderImage image={images.search}  tintColor ={'#fff'} style={styles.icon} onPress={()=>navigation.navigate('Search')}/>
         </View>
       </View>
     

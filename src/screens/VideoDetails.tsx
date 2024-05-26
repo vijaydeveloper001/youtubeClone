@@ -1,13 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, FlatList, Pressable} from 'react-native';
-import Video, {VideoRef} from 'react-native-video';
-import RNFetchBlob from 'rn-fetch-blob';
-import {WebView} from 'react-native-webview';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
+import { WebView } from 'react-native-webview';
 import TypoGraphy from '../components/TypoGraphy';
-import {images} from '../assets/images/images';
+import { images } from '../assets/images/images';
 import RenderImage from '../components/RenderImage';
 import { useDispatch, useSelector } from 'react-redux';
-import videoReducers, { videoAdded } from '../redux/reducers/videoReducers';
+import { videoAdded } from '../redux/reducers/videoReducers';
+
 type Props = {
   route: any;
 };
@@ -29,50 +28,55 @@ const data = [
     img: images.download,
     text: 'Download',
   },
-
   {
     img: images.report,
     text: 'Report',
   },
 ];
 
-const VideoDetails = ({route}: Props) => {
-  const items = route?.params?.item;
-  const videoRef = useRef<VideoRef>(null);
-  const [likesobject, setlikesobject] = useState('')
+const VideoDetails = ({ route }: Props) => {
+  const { item } = route.params;
   const dispatch = useDispatch();
-  const state = useSelector((state: any) => state?.reducers?.videos);
+  const [likesobject, setLikesObject] = useState<any>(null);
+  const videosState = useSelector((state: any) => state.reducers.videos);
 
+  useEffect(() => {
+    const likedItem = videosState.data.find((video: any) => video.p_id === item.p_id);
+    setLikesObject(likedItem);
+  }, []);
 
-  const likesfunciton = (item:any)=>{
-    let splice = state?.data?.filter((item:any)=>item?.p_id!==items?.p_id)
-    
-    dispatch(videoAdded([...splice,{...item,Like:item?.Like?!item?.Like:false}]))
-    setlikesobject({...item,Like:!likesobject?.Like})
-  }
+  const handleLike = () => {
+    const updatedVideos = videosState.data.map((video: any) => {
+      if (video.p_id === item.p_id) {
+        return { ...video, Like: !video.Like };
+      }
+      return video;
+    });
+    dispatch(videoAdded(updatedVideos));
+    setLikesObject((prevLikes: any) => ({ ...prevLikes, Like: !prevLikes.Like }));
+  };
 
-  useEffect(()=>{
-    let filter = state?.data?.filter((item:any)=>item?.p_id==items?.p_id)
-    setlikesobject(filter[0])
-  },[])
-
-  const RenderItem = ({item}: any) => {
+  const renderItem = ({ item }: any) => {
     return (
-      <Pressable style={styles.itemCon} onPress={()=>item?.text=='Like'?likesfunciton(items):()=>{}}>
-        <TypoGraphy style={styles.itemText}>{item?.text}</TypoGraphy>
-        <View style={{marginHorizontal: 10}} />
-        <RenderImage image={item?.img} style={styles.img} tintColor={item?.text=='Like'?likesobject?.Like?'red':'#fff':'#fff'} />
+      <Pressable style={styles.itemCon} onPress={() => item.text === 'Like' ? handleLike() : () => {}}>
+        <TypoGraphy style={styles.itemText}>{item.text}</TypoGraphy>
+        <View style={{ marginHorizontal: 10 }} />
+        <RenderImage
+          image={item.img}
+          style={styles.img}
+          tintColor={item.text === 'Like' ? (likesobject?.Like ? 'red' : '#fff') : '#fff'}
+        />
       </Pressable>
     );
   };
 
   return (
     <View style={styles.main}>
-      <View style={{height: 300}}>
-        {items ? (
+      <View style={{ height: 300 }}>
+        {item ? (
           <WebView
-            source={{uri: items?.url}}
-            style={{flex: 1}}
+            source={{ uri: item.url }}
+            style={{ flex: 1 }}
             containerStyle={styles.backgroundVideo}
           />
         ) : (
@@ -80,16 +84,16 @@ const VideoDetails = ({route}: Props) => {
         )}
       </View>
       <View style={styles.mainInCON}>
-        <TypoGraphy style={styles.pName}>{items?.p_name}</TypoGraphy>
+        <TypoGraphy style={styles.pName}>{item?.p_name}</TypoGraphy>
         <TypoGraphy style={styles.time}>1m views 5mo ago</TypoGraphy>
       </View>
       <View>
         <FlatList
           data={data}
-          renderItem={RenderItem}
+          renderItem={renderItem}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{paddingVertical: 10}}
+          contentContainerStyle={{ paddingVertical: 10 }}
         />
       </View>
     </View>
