@@ -13,6 +13,7 @@ const videoSlice = createSlice({
   reducers: {
     videoAdded: (state, action: PayloadAction<any>) => {
       state.data.push(action.payload);
+
     },
   },
 });

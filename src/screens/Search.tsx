@@ -1,33 +1,60 @@
-import {FlatList, Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import RenderImage from '../components/RenderImage';
 import {images} from '../assets/images/images';
 import TypoGraphy from '../components/TypoGraphy';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
-type Props = {};
+type Props = {
+  navigation: any;
+};
 
-const Search = (props: Props) => {
-    const state = useSelector(state=>state?.reducers?.videos)
-    console.log(state)
-    const renderitem = ()=>{
-        return (
-            <Pressable style = {styles.flatCon}>
-                <RenderImage image={images.youtube} />
-                <TypoGraphy style={styles.textSearch}>Oggy in English</TypoGraphy>
-                <RenderImage image={images.youtube} />
-            </Pressable>
-        )
-    }
+const Search = ({navigation}: Props) => {
+  const state = useSelector((state: any) => state?.reducers?.videos);
+  const [data, setdata] = useState<any>([]);
+  const renderitem = ({item}: any) => {
+    console.log(item);
+    return (
+      <Pressable
+        style={styles.flatCon}
+        onPress={() => navigation.navigate('Details', {item: item})}>
+        <RenderImage image={images.youtube} />
+        <TypoGraphy style={styles.textSearch}>{item?.p_name}</TypoGraphy>
+        <RenderImage image={item?.p_image} />
+      </Pressable>
+    );
+  };
+  const filter = (text: string) => {
+    let arrayFilter = state?.data[0]?.filter((item: object) =>
+      item?.p_name?.toLowerCase()?.includes(text?.toLowerCase()),
+    );
+    setdata(arrayFilter);
+  };
   return (
     <View style={styles.main}>
       <View style={styles.inputCon}>
         <RenderImage image={images.back} tintColor={'#fff'} />
-        <TextInput style={styles.inputStyle} placeholder="Search Youtube" />
+        <TextInput
+          style={styles.inputStyle}
+          placeholder="Search Youtube"
+          onChangeText={filter}
+        />
         <RenderImage image={images.voice} tintColor={'#fff'} />
       </View>
       <View>
-        <FlatList data={[1,2,3,4,54]} renderItem={renderitem}/>
+        <FlatList
+          data={data?.length > 0 ? data : state.data[0]}
+          renderItem={renderitem}
+          contentContainerStyle={{paddingBottom: 100}}
+        />
       </View>
     </View>
   );
@@ -53,14 +80,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  flatCon:{
-    flexDirection:"row",
-    alignItems:"center",
-    marginTop:20
+  flatCon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
   },
-  textSearch:{
-    fontSize:15,
-    marginHorizontal:30,
-    flex:1
-  }
+  textSearch: {
+    fontSize: 15,
+    marginHorizontal: 30,
+    flex: 1,
+  },
 });
