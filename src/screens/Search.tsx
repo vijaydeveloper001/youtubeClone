@@ -21,7 +21,7 @@ const Search = ({navigation}: Props) => {
   const state = useSelector((state: any) => state?.reducers?.videos);
   const [data, setdata] = useState<any>([]);
   const renderitem = ({item}: any) => {
-    console.log(item);
+   
     return (
       <Pressable
         style={styles.flatCon}
@@ -33,7 +33,7 @@ const Search = ({navigation}: Props) => {
     );
   };
   const filter = (text: string) => {
-    let arrayFilter = state?.data[0]?.filter((item: object) =>
+    let arrayFilter = state?.data?.filter((item: object) =>
       item?.p_name?.toLowerCase()?.includes(text?.toLowerCase()),
     );
     setdata(arrayFilter);
@@ -51,7 +51,7 @@ const Search = ({navigation}: Props) => {
       </View>
       <View>
         <FlatList
-          data={data?.length > 0 ? data : state.data[0]}
+          data={data?.length > 0 ? data : state.data}
           renderItem={renderitem}
           contentContainerStyle={{paddingBottom: 100}}
         />

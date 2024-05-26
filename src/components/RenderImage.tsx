@@ -1,14 +1,15 @@
-import {Image, Pressable, StyleSheet} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import { Image, Pressable, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+
 
 type Props = {
   image: any;
   style?: object;
   rest?: object;
-  onpress?:()=>void
+  onPress?: () => void; // Fixed typo: onpress -> onPress
 };
 
-const RenderImage = ({image, style,onpress, ...rest}: Props) => {
+const RenderImage = ({ image, style, onPress, ...rest }: Props) => {
   const [isImage, setIsImage] = useState<boolean>(false);
 
   useEffect(() => {
@@ -16,30 +17,25 @@ const RenderImage = ({image, style,onpress, ...rest}: Props) => {
       try {
         const response = await fetch(image);
         const contentType = response.headers.get('content-type');
-
         setIsImage(contentType?.startsWith('image') ?? false);
       } catch (error) {
-        setIsImage(false);
+       setIsImage(false)
       }
     };
 
-    checkImage();
+    if (image) { // Check if image is not null or undefined
+      checkImage();
+    }
   }, [image]);
 
   return (
-    <>
-      <Pressable onPress={onpress}>
-        {isImage ? (
-          <Image
-            source={{uri: image}}
-            style={[styles.imageStyle, style]}
-            {...rest}
-          />
-        ) : (
-          <Image source={image} style={[styles.imageStyle, style]} {...rest} />
-        )}
-      </Pressable>
-    </>
+    <Pressable onPress={onPress}>
+      {isImage ? (
+        <Image source={{ uri: image }} style={[styles.imageStyle, style]} {...rest} />
+      ) : (
+        <Image source={image} style={[styles.imageStyle, style]} {...rest} />
+      )}
+    </Pressable>
   );
 };
 

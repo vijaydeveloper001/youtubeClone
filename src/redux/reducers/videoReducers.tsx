@@ -12,8 +12,8 @@ const videoSlice = createSlice({
   initialState,
   reducers: {
     videoAdded: (state, action: PayloadAction<any>) => {
-      state.data.push(action.payload);
-
+      state.data=action.payload
+     
     },
   },
 });

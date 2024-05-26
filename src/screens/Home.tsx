@@ -8,7 +8,7 @@ import {useFetch} from '../api/useFetch';
 import YouTubeHomeShimmer from '../components/Shimmer';
 import { useNavigation } from '@react-navigation/native';
 import { videoAdded } from '../redux/reducers/videoReducers';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 type Props = {
  navigation:any
 };
@@ -20,6 +20,7 @@ const Home = ({navigation}: Props) => {
 const content = (navigation:any) => {
   const [videos, setvideos] = useState<object>([]);
   const dispatch = useDispatch()
+  const state = useSelector((state: any) => state?.reducers?.videos);
 
 
   const renderItemYoutube = ({item}: any) => {
@@ -53,7 +54,7 @@ const content = (navigation:any) => {
     )
       .then(data => {
         dispatch(videoAdded(data?.data["EDITORIAL/BRANDED"]))
-        setvideos(data?.data["EDITORIAL/BRANDED"]);
+        // setvideos(data?.data["EDITORIAL/BRANDED"]);
       })
       .catch(e => {
         console.log(e);
@@ -61,13 +62,15 @@ const content = (navigation:any) => {
   };
 
   useEffect(() => {
-    fetchVideos();
+    if (state?.data?.length==0){
+      fetchVideos();
+    }
   }, []);
   return (
     <View style={{flex: 1}}>
-      {videos?.length > 0 ? (
+      {state?.data?.length > 0 ? (
         <FlatList
-          data={videos}
+          data={state?.data}
           renderItem={renderItemYoutube}
           keyExtractor={(item, index) => index}
         />
