@@ -24,7 +24,6 @@ const AppBaseHome = ({children,navigation}: Props) => {
           <RenderImage image={images.search}  tintColor ={'#fff'} style={styles.icon} onPress={()=>navigation.navigate('Search')}/>
         </View>
       </View>
-    
         <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
           {children}
         </ScrollView>
