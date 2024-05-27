@@ -15,6 +15,7 @@ import {useFetch} from '../api/useFetch';
 import YouTubeHomeShimmer from '../components/Shimmer';
 import {videoAdded} from '../redux/reducers/videoReducers';
 import {useDispatch, useSelector} from 'react-redux';
+import BottomSheet from '../components/BottomSheet';
 type Props = {
   navigation: any;
 };
@@ -90,6 +91,9 @@ const content = (navigation: any) => {
       ) : (
         <YouTubeHomeShimmer />
       )}
+     
+      {/* <BottomSheet/> */}
+
     </View>
   );
 };

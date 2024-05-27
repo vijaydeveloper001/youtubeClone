@@ -138,7 +138,7 @@ const VideoDetails = ({route}: Props) => {
             <TypoGraphy style={{fontSize:12}}>1 core subscriber</TypoGraphy>
           </View>
           <Pressable style = {styles.subscribe}>
-            <TypoGraphy style={{color:'#fff'}}>Subscribe</TypoGraphy>
+            <TypoGraphy style={{color:'#000'}}>Subscribe</TypoGraphy>
           </Pressable>
         </View>
         <View>
@@ -248,8 +248,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   subscribe:{
-    backgroundColor:'#6c6d70',
-    borderRadius:5,
+    backgroundColor:'#fff',
+    borderRadius:25,
     paddingVertical:5,
     paddingHorizontal:12
   }
