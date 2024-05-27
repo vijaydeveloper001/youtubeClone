@@ -237,11 +237,11 @@ const styles = StyleSheet.create({
   },
   videoCon: {
     height: 300,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   videodes: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     position: 'absolute',
     bottom: 0,

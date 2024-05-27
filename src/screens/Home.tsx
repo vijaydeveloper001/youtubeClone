@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   videodes: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     position: 'absolute',
     bottom: 0,
@@ -127,6 +127,6 @@ const styles = StyleSheet.create({
   },
   imageborders:{
     width:20,
-    height:20
+    height:20,
   }
 });

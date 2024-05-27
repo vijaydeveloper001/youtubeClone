@@ -1,5 +1,12 @@
-import {ScrollView, StyleSheet, View, Animated} from 'react-native';
-import React, {useRef} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Animated,
+  FlatList,
+  Pressable,
+} from 'react-native';
+import React, {useRef,useState} from 'react';
 import RenderImage from './RenderImage';
 import {images} from '../assets/images/images';
 import TypoGraphy from './TypoGraphy';
@@ -10,13 +17,43 @@ type Props = {
   navigation: any;
 };
 
+const data = [
+  {
+    item:'All'
+  },
+  {
+    item:'Mixes'
+  },
+  {
+    item:'Music'
+  },
+  {
+    item:'Oggy and Cockroach'
+  },
+  {
+    item:'Source code'
+  },
+  {
+    item:'Live'
+  }
+]
+
 const AppBaseHome = ({children, navigation}: Props) => {
   const scrollY = useRef(new Animated.Value(0)).current;
+  const [indx, setindex] = useState<any>(0)
   const interpolate = scrollY.interpolate({
     inputRange: [0, 40],
     outputRange: [0, -40],
     extrapolate: 'clamp',
   });
+
+  const renderItem = ({item,index}:any) => {
+    return (
+      <Pressable style = {[styles.headerFlat,{backgroundColor:indx==index?'#fff':'#6c6d70'}]} onPress={()=>setindex(index)}>
+        <TypoGraphy style={{color:indx==index?'#000':'#fff'}}>{item?.item}</TypoGraphy>
+      </Pressable>
+    );
+  };
 
   return (
     <View style={styles.Main}>
@@ -29,30 +66,42 @@ const AppBaseHome = ({children, navigation}: Props) => {
         showsVerticalScrollIndicator={false}
         style={{flex: 1}}>
         <Animated.View
-          style={[styles.header, {transform: [{translateY: interpolate}]}]}>
-          <View style={styles.logo}>
-            <RenderImage
-              image={images.youtube}
-              style={{width: 30, height: 30}}
-            />
-            <TypoGraphy style={styles.youtubeText}>YOUTUBE</TypoGraphy>
+          style={[styles.headerMain, {transform: [{translateY: interpolate}]}]}>
+          <View style={styles.header}>
+            <View style={styles.logo}>
+              <RenderImage
+                image={images.youtube}
+                style={{width: 30, height: 30}}
+              />
+              <TypoGraphy style={styles.youtubeText}>YOUTUBE</TypoGraphy>
+            </View>
+            <View style={styles.icons}>
+              <RenderImage
+                image={images.wifi}
+                tintColor={'#fff'}
+                style={styles.icon}
+              />
+              <RenderImage
+                image={images.bell}
+                tintColor={'#fff'}
+                style={styles.icon}
+              />
+              <RenderImage
+                image={images.search}
+                tintColor={'#fff'}
+                style={styles.icon}
+                onPress={() => navigation.navigate('Search')}
+              />
+            </View>
           </View>
-          <View style={styles.icons}>
-            <RenderImage
-              image={images.wifi}
-              tintColor={'#fff'}
-              style={styles.icon}
-            />
-            <RenderImage
-              image={images.bell}
-              tintColor={'#fff'}
-              style={styles.icon}
-            />
-            <RenderImage
-              image={images.search}
-              tintColor={'#fff'}
-              style={styles.icon}
-              onPress={() => navigation.navigate('Search')}
+          <View>
+            <FlatList
+              data={data}
+              renderItem={renderItem}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle = {{paddingBottom:20,marginHorizontal:10}}
+              bounces={false}
             />
           </View>
         </Animated.View>
@@ -101,4 +150,9 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
+  headerFlat:{
+    borderRadius:5,
+    marginRight:10,
+    padding:5
+  }
 });
