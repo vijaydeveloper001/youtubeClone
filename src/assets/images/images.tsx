@@ -16,6 +16,7 @@ export const images = {
     subscribe:require('./subscribe.png'),
     user:require('./user.png'),
     video:require('./video.png'),
+    noImage:require("./no-photo.png")
 
 
 

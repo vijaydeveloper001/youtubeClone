@@ -1,31 +1,55 @@
-import React, { useCallback, useMemo, useRef, useEffect } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { BottomSheetModal, BottomSheetView ,BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import React, {useEffect, useRef} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import RenderImage from './RenderImage';
+import {images} from '../assets/images/images';
+import TypoGraphy from './TypoGraphy';
+import BottomSheetItem from './BottomSheetItem';
 
-const BottomSheetExample = () => {
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
+interface props {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetRef.current?.present();
-  }, []);
-
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+const BottomSheetExample = ({isOpen, onClose}: props) => {
+  const refRBSheet = useRef<RBSheet>(null);
+  useEffect(() => {
+    if (isOpen && refRBSheet.current) {
+        refRBSheet.current.open();
+      }
+  }, [isOpen]);
 
   useEffect(() => {
-    handlePresentModalPress();
-  }, []);
-
+    onClose();
+  }, [!isOpen]);
   return (
-    <BottomSheetModalProvider >
-      <BottomSheetModal
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        index={0}>
-        <BottomSheetView style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
-        </BottomSheetView>
-      </BottomSheetModal>
-      </BottomSheetModalProvider>
+    <RBSheet ref={refRBSheet} customStyles={{container: styles.rbSheetStyle}} >
+      <View style={styles.container}>
+        <BottomSheetItem
+          img={images.save}
+          text={'Save'}
+          onPress={() => refRBSheet?.current?.close()}
+        />
+
+        <BottomSheetItem
+          img={images.download}
+          text={'Download'}
+          onPress={() => refRBSheet?.current?.close()}
+        />
+
+        <BottomSheetItem
+          img={images.share}
+          text={'Share'}
+          onPress={() => refRBSheet?.current?.close()}
+        />
+
+        <BottomSheetItem
+          img={images.report}
+          text={'Report'}
+          onPress={() => refRBSheet?.current?.close()}
+        />
+      </View>
+    </RBSheet>
   );
 };
 
@@ -34,13 +58,17 @@ export default BottomSheetExample;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    backgroundColor: '#4d4b49',
+    paddingVertical: 10,
   },
   contentContainer: {
     alignItems: 'center',
     padding: 16,
     backgroundColor: 'white',
+  },
+  rbSheetStyle: {
+    borderRadius: 20,
   },
 });

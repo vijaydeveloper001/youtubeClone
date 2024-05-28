@@ -1,14 +1,11 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../../screens/Home';
-import Search from '../../screens/Search';
-import VideoDetails from '../../screens/VideoDetails';
-import RenderImage from '../../components/RenderImage';
 import {images} from '../../assets/images/images';
 import {Image} from 'react-native';
 import CreateVideo from '../../screens/CreateVideo';
 import Profile from '../../screens/Profile';
 import Subscribe from '../../screens/Subscribe';
-import Video from 'react-native-video';
+import Video from '../../screens/Video';
 
 const Tab = createBottomTabNavigator();
 type Props = {};

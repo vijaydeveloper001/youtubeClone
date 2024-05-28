@@ -11,7 +11,6 @@ import React, {useRef, useState} from 'react';
 import RenderImage from './RenderImage';
 import {images} from '../assets/images/images';
 import TypoGraphy from './TypoGraphy';
-import Icon from 'ol/style/Icon';
 
 type Props = {
   children: any;
@@ -29,7 +28,6 @@ const data = [
   {item: 'Sales'},
   {item: 'Testimonial'},
   {item: 'Problem | Solution'},
-
   {item: 'Product Launch'},
 ];
 

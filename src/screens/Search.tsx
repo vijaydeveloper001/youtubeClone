@@ -24,7 +24,7 @@ const Search = ({navigation}: Props) => {
     return (
       <Pressable
         style={styles.flatCon}
-        onPress={() => navigation.navigate('Details', {item: item})}>
+        onPress={() => navigation.navigate('Details', {item: item,selected:item?.cat_name})}>
         <RenderImage image={images.youtube} />
         <TypoGraphy style={styles.textSearch}>{item?.p_name}</TypoGraphy>
         <RenderImage image={item?.p_image} />
@@ -32,7 +32,24 @@ const Search = ({navigation}: Props) => {
     );
   };
   const filter = (text: string) => {
-    let arrayFilter = state?.data?.filter((item: object) =>
+    const datafilter = [
+      ...state?.data['Brand Collaborations'],
+      ...state?.data['Drone'],
+      ...state?.data['Events'],
+      ...state?.data['Educational'],
+      ...state?.data['Founder'],
+
+      ...state?.data['Evergreen'],
+
+      ...state?.data['Sales'],
+
+      ...state?.data['Testimonial'],
+
+      ...state?.data['Problem | Solution'],
+
+      ...state?.data['Product Launch'],
+    ];
+    let arrayFilter = datafilter?.filter((item: object) =>
       item?.p_name?.toLowerCase()?.includes(text?.toLowerCase()),
     );
     setdata(arrayFilter);
@@ -40,7 +57,11 @@ const Search = ({navigation}: Props) => {
   return (
     <View style={styles.main}>
       <View style={styles.inputCon}>
-        <RenderImage image={images.back} tintColor={'#fff'} onPress={()=>navigation.goBack()} />
+        <RenderImage
+          image={images.back}
+          tintColor={'#fff'}
+          onPress={() => navigation.goBack()}
+        />
         <TextInput
           style={styles.inputStyle}
           placeholder="Search Youtube"
@@ -50,7 +71,7 @@ const Search = ({navigation}: Props) => {
       </View>
       <View>
         <FlatList
-          data={data?.length > 0 ? data : state.data}
+          data={data?.length > 0 ? data : state.data['Drone']}
           renderItem={renderitem}
           contentContainerStyle={{paddingBottom: 100}}
           showsVerticalScrollIndicator={false}

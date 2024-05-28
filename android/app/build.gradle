@@ -108,7 +108,7 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation 'com.arthenica:mobile-ffmpeg-full:4.4.LTS'
-       implementation project(':react-native-video')
+      
         implementation fileTree(dir: "libs", include: ["*.jar"])
         implementation "com.android.support:appcompat-v7:23.0.1"
 

@@ -16,32 +16,47 @@ import YouTubeHomeShimmer from '../components/Shimmer';
 import {videoAdded} from '../redux/reducers/videoReducers';
 import {useDispatch, useSelector} from 'react-redux';
 import BottomSheet from '../components/BottomSheet';
+import {checkImage} from '../utils/imagecheck';
 type Props = {
   navigation: any;
 };
 
 const Home = ({navigation}: Props) => {
-  const [filter, setfilter] = useState<any>('Brand Collaborations')
-  return <AppBaseHome children={content(navigation,filter)} navigation={navigation} callbacks = {(data:string)=>setfilter(data)}/>;
+  const [filter, setfilter] = useState<any>('Brand Collaborations');
+  return (
+    <AppBaseHome
+      children={content(navigation, filter)}
+      navigation={navigation}
+      callbacks={(data: string) => setfilter(data)}
+    />
+  );
 };
 
-const content = (navigation: any,filter:any) => {
+const content = (navigation: any, filter: any) => {
+  const [modal, setmodal] = useState<boolean>(false);
   const [videos, setvideos] = useState<object>([]);
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state?.reducers?.videos);
-  console.log(state?.data[filter]);
+
   const renderItemYoutube = ({item}: any) => {
+    // let check =await checkImage(item.p_image)
+    // console.log(check)
+    const httpsImageUrlRegex = /^https?:\/\//i;
+    let check = httpsImageUrlRegex.test(item?.p_image);
     return (
       <Pressable
         style={styles.videoCon}
-        onPress={() => navigation.navigate('Details', {item: item,selected:filter})}>
+        onPress={() =>
+          navigation.navigate('Details', {item: item, selected: filter})
+        }>
         <RenderImage
-          image={item.p_image}
+          image={check ? item.p_image : images.noImage}
           style={styles.image}
-          onPress={() => navigation.navigate('Details', {item: item})}
+          tintColor='red'
+          onPress={() => navigation.navigate('Details', {item: item,selected: filter})}
         />
         <View style={styles.videodes}>
-          <RenderImage image={item.p_image} style={styles.imageborder} />
+          <RenderImage image= {check ? item.p_image : images.youtube}  style={styles.imageborder} />
           <View style={styles.textdes}>
             <TypoGraphy style={{color: '#fff'}}>{item?.p_name}</TypoGraphy>
             <TypoGraphy style={styles.timeText}>
@@ -49,6 +64,9 @@ const content = (navigation: any,filter:any) => {
             </TypoGraphy>
           </View>
           <RenderImage
+            onPress={() => {
+              setmodal(true);
+            }}
             image={images.more}
             style={styles.imageborders}
             tintColor="#fff"
@@ -90,6 +108,9 @@ const content = (navigation: any,filter:any) => {
     if (state?.data?.length == 0) {
       fetchVideos();
     }
+    return () => {
+      setmodal(false);
+    };
   }, []);
 
   return (
@@ -98,14 +119,13 @@ const content = (navigation: any,filter:any) => {
         <FlatList
           data={state?.data[filter]}
           renderItem={renderItemYoutube}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index: any) => index}
           stickyHeaderIndices={[0]}
         />
       ) : (
         <YouTubeHomeShimmer />
       )}
-
-      {/* <BottomSheet/> */}
+      <BottomSheet isOpen={modal} onClose={() => setmodal(false)} />
     </View>
   );
 };

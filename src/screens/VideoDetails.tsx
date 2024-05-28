@@ -52,7 +52,7 @@ const VideoDetails = ({route}: Props) => {
       (video: any) => video.p_id === item.p_id,
     );
     setLikesObject(likedItem);
-  }, [itemStore,item]);
+  }, [itemStore, item]);
 
   const handleLike = () => {
     const updatedVideos = videosState.data[selected]?.map((video: any) => {
@@ -85,15 +85,18 @@ const VideoDetails = ({route}: Props) => {
   };
 
   const renderItemYoutube = ({item}: any) => {
+
+    const httpsImageUrlRegex = /^https?:\/\//i;
+    let check = httpsImageUrlRegex.test(item?.p_image);
     return (
       <Pressable style={styles.videoCon} onPress={() => setitemStore(item)}>
         <RenderImage
-          image={item.p_image}
+          image={check ? item.p_image : images.noImage}
           style={styles.image}
           resizeMethod={'cantion'}
         />
         <View style={styles.videodes}>
-          <RenderImage image={item.p_image} style={styles.imageborder} />
+          <RenderImage image={check ? item.p_image : images.noImage} style={styles.imageborder} />
           <View style={styles.textdes}>
             <TypoGraphy style={{color: '#fff'}}>{item?.p_name}</TypoGraphy>
             <TypoGraphy style={{color: '#fff'}}>{item?.cat_name}</TypoGraphy>
