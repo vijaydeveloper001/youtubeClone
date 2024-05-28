@@ -98,8 +98,8 @@ const VideoDetails = ({route}: Props) => {
         <View style={styles.videodes}>
           <RenderImage image={item.p_image} style={styles.imageborder} />
           <View style={styles.textdes}>
-            <TypoGraphy>{item?.p_name}</TypoGraphy>
-            <TypoGraphy>{item?.cat_name}</TypoGraphy>
+            <TypoGraphy style={{color:'#fff'}}>{item?.p_name}</TypoGraphy>
+            <TypoGraphy style={{color:'#fff'}}>{item?.cat_name}</TypoGraphy>
           </View>
           <RenderImage
             image={images.more}

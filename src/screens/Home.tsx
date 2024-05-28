@@ -21,12 +21,7 @@ type Props = {
 };
 
 const Home = ({navigation}: Props) => {
-  return (
-    <AppBaseHome
-      children={content(navigation)}
-      navigation={navigation}
-    />
-  );
+  return <AppBaseHome children={content(navigation)} navigation={navigation} />;
 };
 
 const content = (navigation: any) => {
@@ -46,8 +41,10 @@ const content = (navigation: any) => {
         <View style={styles.videodes}>
           <RenderImage image={item.p_image} style={styles.imageborder} />
           <View style={styles.textdes}>
-            <TypoGraphy>{item?.p_name}</TypoGraphy>
-            <TypoGraphy style = {styles.timeText}>2 years ago 2m views</TypoGraphy>
+            <TypoGraphy style={{color: '#fff'}}>{item?.p_name}</TypoGraphy>
+            <TypoGraphy style={styles.timeText}>
+              2 years ago 2m views
+            </TypoGraphy>
           </View>
           <RenderImage
             image={images.more}
@@ -65,7 +62,23 @@ const content = (navigation: any) => {
       'GET',
     )
       .then(data => {
-        dispatch(videoAdded(data?.data['EDITORIAL/BRANDED']));
+        dispatch(
+          videoAdded([
+            {
+              'Brand Editorial': data?.data['Brand Editorial'],
+              Drone: data?.data['Drone'],
+              Events: data?.data['Events'],
+              Educational: data?.data['Educational'],
+              Founder: data?.data['Founder'],
+              Evergreen: data?.data['Evergreen'],
+              Sales: data?.data['Sales'],
+              Testimonial: data?.data['Testimonial'],
+              'Problem | Solution': data?.data['Problem | Solution'],
+
+              'Product Launch': data?.data['Product Launch'],
+            },
+          ]),
+        );
         // setvideos(data?.data["EDITORIAL/BRANDED"]);
       })
       .catch(e => {
@@ -91,9 +104,8 @@ const content = (navigation: any) => {
       ) : (
         <YouTubeHomeShimmer />
       )}
-     
-      {/* <BottomSheet/> */}
 
+      {/* <BottomSheet/> */}
     </View>
   );
 };
@@ -126,11 +138,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
-  timeText:{
-    fontSize:12
+  timeText: {
+    fontSize: 12,
+    color: '#fff',
   },
-  imageborders:{
-    width:20,
-    height:20,
-  }
+  imageborders: {
+    width: 20,
+    height: 20,
+  },
 });

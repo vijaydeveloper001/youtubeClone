@@ -5,8 +5,9 @@ import {
   Animated,
   FlatList,
   Pressable,
+  StatusBar,
 } from 'react-native';
-import React, {useRef,useState} from 'react';
+import React, {useRef, useState} from 'react';
 import RenderImage from './RenderImage';
 import {images} from '../assets/images/images';
 import TypoGraphy from './TypoGraphy';
@@ -18,39 +19,39 @@ type Props = {
 };
 
 const data = [
-  {
-    item:'All'
-  },
-  {
-    item:'Mixes'
-  },
-  {
-    item:'Music'
-  },
-  {
-    item:'Oggy and Cockroach'
-  },
-  {
-    item:'Source code'
-  },
-  {
-    item:'Live'
-  }
-]
+  {item: 'Brand Editorial'},
+  {item: 'Drone'},
+  {item: 'Events'},
+  {item: 'Educational'},
+  {item: 'Founder'},
+  {item: 'Evergreen'},
+  {item: 'Sales'},
+  {item: 'Testimonial'},
+  {item: 'Problem | Solution'},
+
+  {item: 'Product Launch'},
+];
 
 const AppBaseHome = ({children, navigation}: Props) => {
   const scrollY = useRef(new Animated.Value(0)).current;
-  const [indx, setindex] = useState<any>(0)
+  const [indx, setindex] = useState<any>(0);
   const interpolate = scrollY.interpolate({
     inputRange: [0, 40],
     outputRange: [0, -40],
     extrapolate: 'clamp',
   });
 
-  const renderItem = ({item,index}:any) => {
+  const renderItem = ({item, index}: any) => {
     return (
-      <Pressable style = {[styles.headerFlat,{backgroundColor:indx==index?'#fff':'#6c6d70'}]} onPress={()=>setindex(index)}>
-        <TypoGraphy style={{color:indx==index?'#000':'#fff'}}>{item?.item}</TypoGraphy>
+      <Pressable
+        style={[
+          styles.headerFlat,
+          {backgroundColor: indx == index ? '#fff' : '#6c6d70'},
+        ]}
+        onPress={() => setindex(index)}>
+        <TypoGraphy style={{color: indx == index ? '#000' : '#fff'}}>
+          {item?.item}
+        </TypoGraphy>
       </Pressable>
     );
   };
@@ -100,7 +101,7 @@ const AppBaseHome = ({children, navigation}: Props) => {
               renderItem={renderItem}
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle = {{paddingBottom:20,marginHorizontal:10}}
+              contentContainerStyle={{paddingBottom: 20, marginHorizontal: 10}}
               bounces={false}
             />
           </View>
@@ -150,9 +151,9 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  headerFlat:{
-    borderRadius:5,
-    marginRight:10,
-    padding:5
-  }
+  headerFlat: {
+    borderRadius: 5,
+    marginRight: 10,
+    padding: 5,
+  },
 });
