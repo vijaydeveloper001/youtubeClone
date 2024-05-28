@@ -21,18 +21,20 @@ type Props = {
 };
 
 const Home = ({navigation}: Props) => {
-  return <AppBaseHome children={content(navigation)} navigation={navigation} />;
+  const [filter, setfilter] = useState<any>('Brand Collaborations')
+  return <AppBaseHome children={content(navigation,filter)} navigation={navigation} callbacks = {(data:string)=>setfilter(data)}/>;
 };
 
-const content = (navigation: any) => {
+const content = (navigation: any,filter:any) => {
   const [videos, setvideos] = useState<object>([]);
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state?.reducers?.videos);
+  console.log(state?.data[filter]);
   const renderItemYoutube = ({item}: any) => {
     return (
       <Pressable
         style={styles.videoCon}
-        onPress={() => navigation.navigate('Details', {item: item})}>
+        onPress={() => navigation.navigate('Details', {item: item,selected:filter})}>
         <RenderImage
           image={item.p_image}
           style={styles.image}
@@ -58,26 +60,24 @@ const content = (navigation: any) => {
 
   const fetchVideos = async () => {
     await useFetch(
-      'https://impactmindz.in/client/boub/back_end/api/product',
+      'https://impactmindz.in/client/boub/admin/api/product',
       'GET',
     )
       .then(data => {
         dispatch(
-          videoAdded([
-            {
-              'Brand Editorial': data?.data['Brand Editorial'],
-              Drone: data?.data['Drone'],
-              Events: data?.data['Events'],
-              Educational: data?.data['Educational'],
-              Founder: data?.data['Founder'],
-              Evergreen: data?.data['Evergreen'],
-              Sales: data?.data['Sales'],
-              Testimonial: data?.data['Testimonial'],
-              'Problem | Solution': data?.data['Problem | Solution'],
+          videoAdded({
+            'Brand Collaborations': data?.data['Brand Collaborations'],
+            Drone: data?.data['Drone'],
+            Events: data?.data['Events'],
+            Educational: data?.data['Educational'],
+            Founder: data?.data['Founder'],
+            Evergreen: data?.data['Evergreen'],
+            Sales: data?.data['Sales'],
+            Testimonial: data?.data['Testimonial'],
+            'Problem | Solution': data?.data['Problem | Solution'],
 
-              'Product Launch': data?.data['Product Launch'],
-            },
-          ]),
+            'Product Launch': data?.data['Product Launch'],
+          }),
         );
         // setvideos(data?.data["EDITORIAL/BRANDED"]);
       })
@@ -94,9 +94,9 @@ const content = (navigation: any) => {
 
   return (
     <View style={{flex: 1}}>
-      {state?.data?.length > 0 ? (
+      {state?.data[filter]?.length > 0 ? (
         <FlatList
-          data={state?.data}
+          data={state?.data[filter]}
           renderItem={renderItemYoutube}
           keyExtractor={(item, index) => index}
           stickyHeaderIndices={[0]}

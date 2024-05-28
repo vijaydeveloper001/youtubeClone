@@ -42,27 +42,27 @@ const data = [
 ];
 
 const VideoDetails = ({route}: Props) => {
-  const {item} = route.params;
+  const {item, selected} = route.params;
   const dispatch = useDispatch();
   const [likesobject, setLikesObject] = useState<any>(null);
   const videosState = useSelector((state: any) => state.reducers.videos);
-  const [itemStore, setitemStore] = useState<any>(null)
-
+  const [itemStore, setitemStore] = useState<any>(null);
   useEffect(() => {
-    const likedItem = videosState.data.find(
+    const likedItem = videosState.data[selected]?.find(
       (video: any) => video.p_id === item.p_id,
     );
     setLikesObject(likedItem);
-  }, []);
+  }, [itemStore,item]);
 
   const handleLike = () => {
-    const updatedVideos = videosState.data.map((video: any) => {
+    const updatedVideos = videosState.data[selected]?.map((video: any) => {
       if (video.p_id === item.p_id) {
         return {...video, Like: !video.Like};
       }
       return video;
     });
-    dispatch(videoAdded(updatedVideos));
+    delete videosState?.data[selected];
+    dispatch(videoAdded({...videosState?.data, [selected]: updatedVideos}));
     setLikesObject((prevLikes: any) => ({...prevLikes, Like: !prevLikes.Like}));
   };
 
@@ -85,11 +85,8 @@ const VideoDetails = ({route}: Props) => {
   };
 
   const renderItemYoutube = ({item}: any) => {
-  
     return (
-      <Pressable
-        style={styles.videoCon}
-        onPress={() => setitemStore(item)}>
+      <Pressable style={styles.videoCon} onPress={() => setitemStore(item)}>
         <RenderImage
           image={item.p_image}
           style={styles.image}
@@ -98,8 +95,8 @@ const VideoDetails = ({route}: Props) => {
         <View style={styles.videodes}>
           <RenderImage image={item.p_image} style={styles.imageborder} />
           <View style={styles.textdes}>
-            <TypoGraphy style={{color:'#fff'}}>{item?.p_name}</TypoGraphy>
-            <TypoGraphy style={{color:'#fff'}}>{item?.cat_name}</TypoGraphy>
+            <TypoGraphy style={{color: '#fff'}}>{item?.p_name}</TypoGraphy>
+            <TypoGraphy style={{color: '#fff'}}>{item?.cat_name}</TypoGraphy>
           </View>
           <RenderImage
             image={images.more}
@@ -113,32 +110,32 @@ const VideoDetails = ({route}: Props) => {
 
   return (
     <View style={styles.main}>
-     
-        <View style={{height: 300}}>
-          {item ? (
-            <WebView
-              source={{uri: itemStore?itemStore.url:item.url}}
-              style={{flex: 1}}
-              containerStyle={styles.backgroundVideo}
-            />
-          ) : (
-            <Text>Loading video...</Text>
-          )}
-        </View>
-        <View style={styles.mainInCON}>
-          <TypoGraphy style={styles.pName}>{itemStore?itemStore?.p_name:item?.p_name}</TypoGraphy>
-          <TypoGraphy style={styles.time}>1m views 5mo ago</TypoGraphy>
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-
+      <View style={{height: 300}}>
+        {item ? (
+          <WebView
+            source={{uri: itemStore ? itemStore.url : item.url}}
+            style={{flex: 1}}
+            containerStyle={styles.backgroundVideo}
+          />
+        ) : (
+          <Text>Loading video...</Text>
+        )}
+      </View>
+      <View style={styles.mainInCON}>
+        <TypoGraphy style={styles.pName}>
+          {itemStore ? itemStore?.p_name : item?.p_name}
+        </TypoGraphy>
+        <TypoGraphy style={styles.time}>1m views 5mo ago</TypoGraphy>
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.videodescON}>
           <RenderImage image={images?.youtube} style={styles.imageborder} />
           <View style={styles.textdes}>
             <TypoGraphy>{item?.p_name}</TypoGraphy>
-            <TypoGraphy style={{fontSize:12}}>1 core subscriber</TypoGraphy>
+            <TypoGraphy style={{fontSize: 12}}>1 core subscriber</TypoGraphy>
           </View>
-          <Pressable style = {styles.subscribe}>
-            <TypoGraphy style={{color:'#000'}}>Subscribe</TypoGraphy>
+          <Pressable style={styles.subscribe}>
+            <TypoGraphy style={{color: '#000'}}>Subscribe</TypoGraphy>
           </Pressable>
         </View>
         <View>
@@ -150,14 +147,12 @@ const VideoDetails = ({route}: Props) => {
             contentContainerStyle={{paddingVertical: 10}}
           />
         </View>
-        <View style = {{flex:1}}>
-          
-            <FlatList
-              data={videosState?.data}
-              renderItem={renderItemYoutube}
-              keyExtractor={(item, index) => index}
-            />
-         
+        <View style={{flex: 1}}>
+          <FlatList
+            data={videosState?.data[selected]}
+            renderItem={renderItemYoutube}
+            keyExtractor={(item, index) => index}
+          />
         </View>
       </ScrollView>
     </View>
@@ -184,7 +179,7 @@ const styles = StyleSheet.create({
   },
   mainInCON: {
     paddingHorizontal: 10,
-    paddingVertical:10
+    paddingVertical: 10,
   },
   image: {
     height: 250,
@@ -228,12 +223,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
-  timeText:{
-    fontSize:12
+  timeText: {
+    fontSize: 12,
   },
-  imageborders:{
-    width:20,
-    height:20
+  imageborders: {
+    width: 20,
+    height: 20,
   },
   videoCon: {
     height: 300,
@@ -247,12 +242,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     paddingHorizontal: 10,
   },
-  subscribe:{
-    backgroundColor:'#fff',
-    borderRadius:25,
-    paddingVertical:5,
-    paddingHorizontal:12
-  }
+  subscribe: {
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+  },
 });
 
 export default VideoDetails;

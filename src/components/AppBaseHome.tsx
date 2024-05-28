@@ -16,10 +16,11 @@ import Icon from 'ol/style/Icon';
 type Props = {
   children: any;
   navigation: any;
+  callbacks?:()=>void
 };
 
 const data = [
-  {item: 'Brand Editorial'},
+  {item: 'Brand Collaborations'},
   {item: 'Drone'},
   {item: 'Events'},
   {item: 'Educational'},
@@ -32,7 +33,7 @@ const data = [
   {item: 'Product Launch'},
 ];
 
-const AppBaseHome = ({children, navigation}: Props) => {
+const AppBaseHome = ({children, navigation,callbacks}: Props) => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [indx, setindex] = useState<any>(0);
   const interpolate = scrollY.interpolate({
@@ -48,7 +49,7 @@ const AppBaseHome = ({children, navigation}: Props) => {
           styles.headerFlat,
           {backgroundColor: indx == index ? '#fff' : '#6c6d70'},
         ]}
-        onPress={() => setindex(index)}>
+        onPress={() => {setindex(index);callbacks(item?.item)}}>
         <TypoGraphy style={{color: indx == index ? '#000' : '#fff'}}>
           {item?.item}
         </TypoGraphy>
