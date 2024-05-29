@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AppBaseHome from '../components/AppBaseHome';
 import RenderImage from '../components/RenderImage';
 import {images} from '../assets/images/images';
@@ -21,7 +21,7 @@ type Props = {
 };
 
 const Home = ({navigation}: Props) => {
-  const [filter, setfilter] = useState<any>('Brand Collaborations');
+  const [filter, setfilter] = useState<any>('Drone');
   return (
     <AppBaseHome
       children={content(navigation, filter)}
