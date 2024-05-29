@@ -14,8 +14,10 @@ import RenderImage from '../components/RenderImage';
 import {useDispatch, useSelector} from 'react-redux';
 import {videoAdded} from '../redux/reducers/videoReducers';
 import YouTubeItemShimmer from '../components/Shimmer';
+import AppBaseCom from '../components/AppBaseCom';
 type Props = {
   route: any;
+  navigation:any
 };
 
 const data = [
@@ -41,7 +43,12 @@ const data = [
   },
 ];
 
-const VideoDetails = ({route}: Props) => {
+
+const VideoDetails = ({route,navigation}:props) =>{
+  return <AppBaseCom navigation = {navigation} children={VideoDetail(route)}/>
+}
+
+const VideoDetail = (route:any) => {
   const {item, selected} = route.params;
   const dispatch = useDispatch();
   const [likesobject, setLikesObject] = useState<any>(null);

@@ -1,5 +1,6 @@
 import {
   FlatList,
+  Keyboard,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -24,34 +25,59 @@ const Search = ({navigation}: Props) => {
     return (
       <Pressable
         style={styles.flatCon}
-        onPress={() => navigation.navigate('Details', {item: item,selected:item?.cat_name})}>
+        onPress={() =>
+         { 
+          navigation.navigate('Details', {item: item, selected: item?.cat_name})
+        }
+        }>
         <RenderImage image={images.youtube} />
         <TypoGraphy style={styles.textSearch}>{item?.p_name}</TypoGraphy>
         <RenderImage image={item?.p_image} />
       </Pressable>
     );
   };
+
   const filter = (text: string) => {
-    const datafilter = [
-      ...state?.data['Brand Collaborations'],
-      ...state?.data['Drone'],
-      ...state?.data['Events'],
-      ...state?.data['Educational'],
-      ...state?.data['Founder'],
+    if (!state || !state.data) {
+      console.error('state or state.data is undefined');
+      return;
+    }
 
-      ...state?.data['Evergreen'],
+    // console.log('Available keys in state.data:', Object.keys(state.data));
 
-      ...state?.data['Sales'],
-
-      ...state?.data['Testimonial'],
-
-      ...state?.data['Problem | Solution'],
-
-      ...state?.data['Product Launch'],
+    const categories = [
+      'Brand Collaborations',
+      'Drone',
+      'Events',
+      'Educational',
+      'Founder',
+      'Evergreen',
+      'Sales',
+      'Testimonial',
+      'Problem | Solution',
+      'Product Launch',
     ];
-    let arrayFilter = datafilter?.filter((item: object) =>
+
+    let datafilter = [] as object;
+
+    categories.forEach(category => {
+      if (Array.isArray(state.data[category])) {
+        datafilter = [...datafilter, ...state.data[category]];
+      } else {
+        console.warn(`Category ${category} is not an array or is undefined`);
+      }
+    });
+
+    if (!Array.isArray(datafilter)) {
+      console.error('datafilter is not an array');
+      return;
+    }
+
+    let arrayFilter = datafilter.filter((item: any) =>
       item?.p_name?.toLowerCase()?.includes(text?.toLowerCase()),
     );
+
+
     setdata(arrayFilter);
   };
   return (

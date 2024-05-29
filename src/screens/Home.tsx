@@ -1,5 +1,4 @@
 import {
-  Animated,
   FlatList,
   Pressable,
   StyleSheet,
@@ -16,7 +15,6 @@ import YouTubeHomeShimmer from '../components/Shimmer';
 import {videoAdded} from '../redux/reducers/videoReducers';
 import {useDispatch, useSelector} from 'react-redux';
 import BottomSheet from '../components/BottomSheet';
-import {checkImage} from '../utils/imagecheck';
 type Props = {
   navigation: any;
 };
