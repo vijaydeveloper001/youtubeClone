@@ -5,7 +5,7 @@ type Props = {}
 
 const Video = (props: Props) => {
   return (
-    <View>
+    <View style = {{flex:1,backgroundColor:'#000'}}>
       <Text>Video</Text>
     </View>
   )

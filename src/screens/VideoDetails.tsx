@@ -124,7 +124,7 @@ const VideoDetail = (route:any) => {
         {item ? (
           <WebView
             source={{uri: itemStore ? itemStore.url : item.url}}
-            style={{flex: 1}}
+            style={{flex: 1,backgroundColor:'#000'}}
             containerStyle={styles.backgroundVideo}
           />
         ) : (
