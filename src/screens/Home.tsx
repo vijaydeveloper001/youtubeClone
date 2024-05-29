@@ -15,6 +15,7 @@ import YouTubeHomeShimmer from '../components/Shimmer';
 import {videoAdded} from '../redux/reducers/videoReducers';
 import {useDispatch, useSelector} from 'react-redux';
 import BottomSheet from '../components/BottomSheet';
+import Toast from 'react-native-toast-message';
 type Props = {
   navigation: any;
 };
@@ -25,7 +26,13 @@ const Home = ({navigation}: Props) => {
     <AppBaseHome
       children={content(navigation, filter)}
       navigation={navigation}
-      callbacks={(data: string) => setfilter(data)}
+      callbacks={(data: string) => {
+        Toast.show({
+          type:'success',
+          text1:`You are useing ${data} data now`
+        })
+        setfilter(data)
+      }}
     />
   );
 };

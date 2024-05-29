@@ -19,8 +19,8 @@ type Props = {
 };
 
 const data = [
-  {item: 'Brand Collaborations'},
   {item: 'Drone'},
+  {item: 'Brand Collaborations'},
   {item: 'Events'},
   {item: 'Educational'},
   {item: 'Founder'},
