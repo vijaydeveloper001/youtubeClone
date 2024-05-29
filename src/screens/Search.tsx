@@ -136,5 +136,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginHorizontal: 30,
     flex: 1,
+    color:'#fff'
   },
 });

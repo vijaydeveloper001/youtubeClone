@@ -141,8 +141,8 @@ const VideoDetail = (route:any) => {
         <View style={styles.videodescON}>
           <RenderImage image={images?.youtube} style={styles.imageborder} />
           <View style={styles.textdes}>
-            <TypoGraphy>{item?.p_name}</TypoGraphy>
-            <TypoGraphy style={{fontSize: 12}}>1 core subscriber</TypoGraphy>
+            <TypoGraphy style={{color:'#fff'}}>{item?.p_name}</TypoGraphy>
+            <TypoGraphy style={{fontSize: 12,color:'#fff'}}>1 core subscriber</TypoGraphy>
           </View>
           <Pressable style={styles.subscribe}>
             <TypoGraphy style={{color: '#000'}}>Subscribe</TypoGraphy>
